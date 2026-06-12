@@ -1,0 +1,114 @@
+{
+  "name": "SmartCapex TMF921 Pipeline Template",
+  "nodes": [
+    {
+      "id": "n1",
+      "name": "HTTP Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 280],
+      "parameters": {
+        "path": "smartcapex/intent",
+        "httpMethod": "POST",
+        "responseMode": "lastNode"
+      }
+    },
+    {
+      "id": "n2",
+      "name": "User Intents Decomposer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [500, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.USER_INTENTS_DECOMPOSER_URL}}",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={ \"model\": \"{{$env.DECOMPOSER_MODEL_NAME}}\", \"input\": {{$json.body}} }"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "__PLACEHOLDER_CREDENTIAL_ID__",
+          "name": "SMARTCAPEX_LLM_AUTH_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "id": "n3",
+      "name": "BI Translator",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [760, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.BI_TRANSLATOR_URL}}",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={ \"model\": \"{{$env.BI_TRANSLATOR_MODEL_NAME}}\", \"intentJson\": {{$json}} }"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "__PLACEHOLDER_CREDENTIAL_ID__",
+          "name": "SMARTCAPEX_LLM_AUTH_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "id": "n4",
+      "name": "BI Orchestrator",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1020, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.BI_ORCHESTRATOR_URL}}",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={ \"model\": \"{{$env.BI_ORCHESTRATOR_MODEL_NAME}}\", \"intentRdf\": {{$json}} }"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "__PLACEHOLDER_CREDENTIAL_ID__",
+          "name": "SMARTCAPEX_LLM_AUTH_PLACEHOLDER"
+        }
+      }
+    },
+    {
+      "id": "n5",
+      "name": "Planning Optimization Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1280, 280],
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PLANNING_OPTIMIZER_URL}}",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={ \"model\": \"{{$env.PLANNING_MODEL_NAME}}\", \"tmfIntent\": {{$json}} }"
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "__PLACEHOLDER_CREDENTIAL_ID__",
+          "name": "SMARTCAPEX_LLM_AUTH_PLACEHOLDER"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "HTTP Trigger": {
+      "main": [[{ "node": "User Intents Decomposer", "type": "main", "index": 0 }]]
+    },
+    "User Intents Decomposer": {
+      "main": [[{ "node": "BI Translator", "type": "main", "index": 0 }]]
+    },
+    "BI Translator": {
+      "main": [[{ "node": "BI Orchestrator", "type": "main", "index": 0 }]]
+    },
+    "BI Orchestrator": {
+      "main": [[{ "node": "Planning Optimization Agent", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "smartcapex-template-v1"
+}

@@ -1,0 +1,32 @@
+@prefix ex: <https://smartcapex.example.org/intent/> .
+@prefix tmf: <https://www.tmforum.org/intent/ICM/TIO/v3.6.0#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:intent-001 a tmf:Intent ;
+  tmf:hasGoal ex:goal-coverage ;
+  tmf:hasRequirement ex:req-latency, ex:req-availability ;
+  tmf:hasAssumption ex:asm-demand-growth ;
+  tmf:hasRestriction ex:res-budget-cap .
+
+ex:goal-coverage a tmf:Goal ;
+  tmf:name "Improve 5G coverage in suburban Zone-A" ;
+  tmf:targetMetric "Coverage" ;
+  tmf:targetValue "95"^^xsd:decimal .
+
+ex:req-latency a tmf:Requirement ;
+  tmf:name "Latency threshold" ;
+  tmf:targetMetric "LatencyMs" ;
+  tmf:targetValue "20"^^xsd:decimal .
+
+ex:req-availability a tmf:Requirement ;
+  tmf:name "Availability threshold" ;
+  tmf:targetMetric "AvailabilityPct" ;
+  tmf:targetValue "99.95"^^xsd:decimal .
+
+ex:asm-demand-growth a tmf:Assumption ;
+  tmf:name "Traffic demand growth" ;
+  tmf:statement "Projected annual traffic growth is 18% in Zone-A" .
+
+ex:res-budget-cap a tmf:Restriction ;
+  tmf:name "Budget cap" ;
+  tmf:statement "CapEx must not exceed 2.5M EUR for FY2027" .
