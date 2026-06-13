@@ -60,7 +60,7 @@ docs/
 
 ![SmartCapex Architecture Overview](docs/images/architecture-overview.png)
 
-The solution is organized around **five pillars**:
+The solution is organized around **five pillars**, This repo is focused in the agents pillar:
 
 ### 0. ANL as a Service
 Maturity assessment and roadmap for Autonomous Network Level (ANL). Provides a production-ready ANL assessment portal aligned with TM Forum AN principles and ODA concepts.
@@ -75,7 +75,7 @@ Governed, reusable, AI-ready data assets following TM Forum Data-as-a-Product go
 ### 2. SmartCapex (AI Planning Engine)
 AI/ML platform for Smart CapEx optimization. Predicts capacity demand and infrastructure needs, prioritizes investments by business value and ROI, and optimizes CapEx allocation across the network lifecycle.
 
-### 3. Agentic — Managed by Intents
+### 3. Agentic — Managed by Intents (This Repo Focus)
 Intent-driven multi-agent orchestration across network domains. Coordinates intelligent agents through business intents, orchestrating planning, design, deployment, and operations to enable cross-domain autonomous decision-making.
 
 ### 4. Business Value Realization
@@ -263,7 +263,9 @@ smartcapex/
 
 ### Demo Instructions — Ready to Use
 
-The three files below are the **exact agent instructions deployed in this demo**. Copy and paste each one into the corresponding agent's **Instructions** field in Copilot Studio:
+The three files below are the **exact agent instructions deployed in this demo**. Copy and paste each one into the corresponding agent's **Instructions** field in Copilot Studio: 
+
+Note:Besides instructions, additionally Copilot Studio agents uses for their Knoledge bases the TMForum references for each Agent, deppending on each agent purpose and instructions/needs.
 
 | File | Agent |
 |---|---|
@@ -316,5 +318,8 @@ Please ensure:
 ---
 
 ## License
+
+This is a personal project and is not affiliated with or endorsed by Microsoft.
+All examples are generic and for educational purposes only. 
 
 This project is licensed under the [MIT License](LICENSE).
