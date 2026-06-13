@@ -50,14 +50,7 @@ The orchestration layer is built entirely on **Microsoft Copilot Studio**, using
 
 ## Architecture
 
-<!-- 📌 PASTE HERE: place `architecture-overview.png` in `docs/images/` and update the path below -->
-
-```
-docs/
-  images/
-    architecture-overview.png   ← upload this file from the release assets
-```
-
+The Soultion Architecture:
 ![SmartCapex Architecture Overview](docs/images/architecture-overview.png)
 
 The solution is organized around **five pillars**, This repo is focused in the agents pillar:
@@ -87,6 +80,11 @@ Intent-tuned LLM for intent-business-driven decisions. RAG engine leveraging 36 
 ---
 
 ## Agent Pipeline
+
+The Agents Flow:
+
+![Agentic Model High Level Workflow](docs/images/agents-workflow.png)
+
 
 SmartCapex uses **four Microsoft Copilot Studio agents**. The main agent (**SmartCapex**) orchestrates the pipeline by calling the three sub-agents **always in sequence**:
 
