@@ -1,0 +1,18 @@
+{
+  "Goal": [
+    "Generate a network transport deployment plan",
+    "Guarantee service quality on critical infrastructure"
+  ],
+  "Requirements": [
+    "Prioritize the most overloaded existing corridors",
+    "Cover areas with detected demand and no current infrastructure",
+    "Guarantee availability of at least 99.95% on critical links",
+    "Guarantee latency not exceeding 10ms on critical links"
+  ],
+  "Assumptions": [
+    "Use a 3-year demand forecast horizon"
+  ],
+  "Restrictions": [
+    "Budget limited to $2M"
+  ]
+}

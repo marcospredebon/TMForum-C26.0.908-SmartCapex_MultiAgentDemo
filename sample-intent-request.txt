@@ -1,0 +1,5 @@
+Based on a $2M budget and a 3-year demand forecast, generate a network transport
+deployment plan for the metropolitan region, prioritizing both the most overloaded
+existing corridors and areas where demand has been detected but no infrastructure
+currently exists. The plan must guarantee availability of at least 99.95% and
+latency not exceeding 10ms on critical links.

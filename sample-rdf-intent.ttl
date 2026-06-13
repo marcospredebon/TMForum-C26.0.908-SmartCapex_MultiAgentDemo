@@ -1,0 +1,45 @@
+# SmartCapex — Sample RDF Intent Document
+# Format: RDF Turtle (.ttl)
+# Standard: TM Forum TMF921 / Intent Common Model (ICM / TIO v3.6.0)
+#
+# This example represents the network transport deployment intent
+# generated from the sample request in sample-intent-request.txt.
+
+@prefix ex:   <http://example.com/ns#> .
+@prefix icm:  <https://www.tmforum.org/2020/07/intent-model#> .
+@prefix insp: <https://www.tmforum.org/2020/07/intent-model/intent-specific-properties#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ── Intent 1: Deployment ──────────────────────────────────────────────────────
+
+ex:BI_TransportDeployment_MetroRegion
+  a icm:Intent ;
+  rdfs:comment "Business level: SMART CAPEX — metro transport deployment for capacity and coverage" ;
+  dct:description """
+    Generate a network transport deployment plan for the metropolitan region.
+    Prioritize the most overloaded existing corridors and areas with demand
+    but no current infrastructure. Budget: $2M. Horizon: 3-year demand forecast.
+  """ ;
+  insp:intentOwner ex:SmartCapexSystem ;
+  icm:hasExpectation
+    ex:E1_Delivery,
+    ex:E2_Property_Capacity,
+    ex:E3_Property_Quality,
+    ex:E4_Reporting .
+
+ex:E1_Delivery
+  a ex:DeliveryExpectation ;
+  rdfs:comment "Transport infrastructure must be deployed in overloaded corridors and coverage gaps." .
+
+ex:E2_Property_Capacity
+  a ex:PropertyExpectation ;
+  rdfs:comment "Budget cap: $2M. Planning horizon: 3 years of projected demand." .
+
+ex:E3_Property_Quality
+  a ex:PropertyExpectation ;
+  rdfs:comment "Availability >= 99.95% and latency <= 10ms on critical links." .
+
+ex:E4_Reporting
+  a ex:ReportingExpectation ;
+  rdfs:comment "Investment allocation must be visible, justifiable, and tied to demand evidence." .
