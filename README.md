@@ -1,6 +1,30 @@
 # SmartCapex — AI-Powered Multi-Agent Network CapEx Planning
 
-> An intent-driven, standards-based multi-agent system that turns natural-language investment goals into optimized network CapEx plans — built on **Microsoft Copilot Studio** and aligned with **TM Forum TMF921 Intent Management** and the **Open Digital Architecture (ODA)**.
+---
+
+This open-source contribution provides a reference implementation of the intent-driven multi-agent orchestration framework demonstrated in the C26.0.908-Multi-agent Intent-based Orchestration for E2E Smart Capex Phase III Catalyst.
+
+The project illustrates how business objectives can be translated into intents and executed by collaborative AI agents using TM Forum standards, Autonomous Network principles and Agentic AI patterns.
+
+The repository includes:
+
+- Intent lifecycle management
+- Intent decomposition and orchestration
+- Multi-agent collaboration patterns
+- Agent-to-agent communication workflows
+- TM Forum aligned intent models
+- Example Smart CapEx planning use cases
+- Reference integration patterns for Autonomous Networks
+
+The contribution is intended to accelerate industry adoption of intent-based autonomous operations and provide a practical starting point for CSPs, vendors and system integrators exploring Agentic AI in telecommunications.
+
+---
+
+## About This Repo
+
+This repo  gives an overview about the Project and detail the multi agent demo as presented below.
+
+> THe Agents objective is an intent-driven, standards-based multi-agent system that turns natural-language investment goals into optimized network CapEx plans — built on **Microsoft Copilot Studio** and aligned with **TM Forum TMF921 Intent Management** and the **Open Digital Architecture (ODA)**.
 
 ---
 
@@ -22,7 +46,6 @@
 - [Usage Example](#usage-example)
 - [Contributing](#contributing)
 - [License](#license)
-
 ---
 
 ## Overview
