@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SmartCapex — Orquestração Multiagente Baseada em Intenção</title>
+<style>
+  :root{
+    --bg0:#0b1437; --bg1:#1b2a6b; --accent:#e3163b; --accent2:#7a1d8f;
+    --card:#ffffff; --ink:#0b1437; --muted:#9fb0d8; --ok:#19c37d;
+    --code:#0d1b3e; --codeink:#cfe0ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:"Segoe UI",system-ui,Arial,sans-serif;
+    background:radial-gradient(1200px 700px at 75% -10%, #2a3f8f 0%, var(--bg0) 55%);
+    color:#fff; overflow:hidden;
+  }
+  .stage{display:flex;flex-direction:column;height:100vh;padding:26px 34px 0}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+  .badge{font-weight:800;letter-spacing:.5px;font-size:13px;color:#fff;
+    background:var(--accent);padding:5px 10px;border-radius:6px}
+  h1{font-size:24px;margin:0;font-weight:800}
+  .sub{color:var(--muted);font-size:13.5px;margin-top:2px}
+  .logos{margin-left:auto;color:var(--muted);font-size:12px;text-align:right;line-height:1.4}
+
+  .pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:14px 0 10px}
+  .agent{position:relative;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    border-radius:14px;padding:14px 14px 12px;transition:all .5s ease;opacity:.45}
+  .agent .ico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;margin-bottom:8px}
+  .agent h3{margin:0 0 3px;font-size:15.5px}
+  .agent p{margin:0;font-size:12px;color:var(--muted);line-height:1.35;min-height:32px}
+  .agent .step{position:absolute;top:10px;right:12px;width:24px;height:24px;border-radius:50%;
+    background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+  .agent.active{opacity:1;transform:translateY(-4px);border-color:var(--accent);
+    box-shadow:0 14px 40px rgba(227,22,59,.35);background:rgba(255,255,255,.12)}
+  .agent.done{opacity:.92}
+  .agent.done .step{background:var(--ok);color:#062b1c}
+  .agent.active .ico{animation:pulse 1.2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(227,22,59,.5)}50%{box-shadow:0 0 0 10px rgba(227,22,59,0)}}
+
+  .arrow{position:absolute;top:50%;right:-12px;transform:translateY(-50%);font-size:20px;color:var(--muted);z-index:2}
+  .pipeline .agent:last-child .arrow{display:none}
+
+  .panels{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px;min-height:0;margin-bottom:6px}
+  .panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:14px;
+    padding:12px 14px;display:flex;flex-direction:column;min-height:0;transition:.4s}
+  .panel.req{grid-column:1;grid-row:1/3}
+  .panel .ptitle{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:8px;font-weight:700}
+  .reqtext{font-size:18px;line-height:1.5;color:#eaf0ff}
+  .reqtag{display:inline-block;margin-top:14px;font-size:12px;color:#fff;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:5px 12px}
+  pre{margin:0;overflow:auto;background:var(--code);border-radius:10px;padding:12px 14px;flex:1;
+    color:var(--codeink);font-family:"Cascadia Code",Consolas,monospace;font-size:11.8px;line-height:1.5;
+    white-space:pre-wrap;word-break:break-word;opacity:0;transform:translateY(8px);transition:.5s}
+  pre.show{opacity:1;transform:none}
+  .dim{opacity:.32;filter:saturate(.4)}
+
+  .caption{min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;
+    font-size:18.5px;line-height:1.45;padding:8px 30px;font-weight:500;transition:opacity .25s}
+  .caption b{color:#ffd1da}
+  .caption.cc-hidden{opacity:0;visibility:hidden}
+  button.off{background:rgba(255,255,255,.12);opacity:.7}
+
+  .bar{height:5px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden;margin:0 0 8px}
+  .bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#ff7a93);transition:width .25s linear}
+
+  .controls{display:flex;align-items:center;gap:12px;padding:10px 0 16px}
+  button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:11px 18px;cursor:pointer;color:#fff;
+    background:var(--accent);transition:.2s}
+  button:hover{filter:brightness(1.08)}
+  button.ghost{background:rgba(255,255,255,.12)}
+  .hint{color:var(--muted);font-size:12.5px;margin-left:auto;max-width:430px;text-align:right}
+  .lang{font-size:12px;color:var(--muted);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:3px 8px}
+  .voicewrap{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px}
+  select{font:inherit;font-size:12.5px;color:#fff;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.2);
+    border-radius:8px;padding:8px 10px;max-width:260px}
+  select option{color:#0b1437}
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <span class="badge">SmartCapex</span>
+    <div>
+      <h1>SmartCapex — Orquestração Multiagente Baseada em Intenção</h1>
+      <div class="sub">Planejamento de rede por intenção · TM Forum TMF921</div>
+    </div>
+    <div class="logos">TM Forum Catalyst · C26.0.908<br>Telefónica/Vivo · Minsait · Microsoft</div>
+    <span class="lang">pt-BR</span>
+  </header>
+
+  <div class="pipeline" id="pipe"></div>
+
+  <div class="panels">
+    <div class="panel req" id="reqPanel">
+      <div class="ptitle">Pedido do usuário (linguagem natural)</div>
+      <div class="reqtext">“Preciso de uma melhoria de cobertura de rede na Estação CAS nos próximos 2 meses, usando equipamentos Nokia, com orçamento abaixo de 1 milhão de USD — assumindo que há banda e espaço na estação.”</div>
+      <span class="reqtag">User → Orchestrator</span>
+    </div>
+    <div class="panel" id="dataPanel">
+      <div class="ptitle" id="dataTitle">Intenção em JSON estruturado</div>
+      <pre id="dataPre"></pre>
+    </div>
+  </div>
+
+  <div class="caption" id="caption"></div>
+  <div class="bar"><i id="progress"></i></div>
+  <div class="controls">
+    <button id="play">▶  Reproduzir</button>
+    <button class="ghost" id="soundBtn">Som ligado</button>
+    <button class="ghost" id="ccBtn">Legendas ON</button>
+    <span class="hint"></span>
+  </div>
+</div>
+
+<script>
+const LANG = "pt-BR";
+const DURATION = 61;
+const AGENTS = [{"tag": "SMART", "name": "Orquestrador", "desc": "Recebe o pedido e executa os 3 agentes em sequência"}, {"tag": "INT-DEC", "name": "Decompositor de Intenção", "desc": "Linguagem natural → intenção em JSON estruturado"}, {"tag": "TRSLT", "name": "Tradutor de Intenção RDF", "desc": "JSON → RDF Turtle (modelo TMF921)"}, {"tag": "PLAN", "name": "Otimização de Planejamento", "desc": "RDF Turtle → plano acionável"}];
+const CAPTIONS = [[0.0, "Conheça o SmartCapex — uma solução multiagente para planejamento de CapEx de rede baseado em intenção, sobre os padrões do TM Forum.", "Conheça o Smart Cápex — uma solução multiagente para planejamento de Cápex de rede baseado em intenção, sobre os padrões do TM Forum."], [8.5, "Tudo começa com o planejador digitando um pedido em linguagem natural — sem formulários, sem código."], [15.0, "O agente Orquestrador recebe a mensagem em linguagem natural e executa três agentes em sequência."], [22.0, "Primeiro, o Decompositor de Intenção extrai objetivo, requisitos, premissas e restrições em um JSON estruturado.", "Primeiro, o Decompositor de Intenção extrai objetivo, requisitos, premissas e restrições em um Geizon estruturado."], [32.0, "Em seguida, o Tradutor de Intenção converte esse JSON em RDF Turtle, seguindo o modelo de intenção TMF921 do TM Forum.", "Em seguida, o Tradutor de Intenção converte esse Geizon em RDF Têrtou, seguindo o modelo de intenção TMF921 do TM Forum."], [42.0, "Por fim, o agente de Planejamento lê a intenção e gera um plano acionável — com prioridades, restrições, conflitos e lacunas."], [53.0, "De uma única frase a um plano de rede validado — automaticamente, de ponta a ponta."]];
+const PANEL_TITLES = ["Pedido do usuário (linguagem natural)", "Intenção em JSON estruturado", "RDF Turtle (intenção TM Forum)", "Plano de otimização"];
+const PAYLOADS = [null, "{\n  \"Goal\": [\"Improve network coverage\"],\n  \"Requirements\": [\"Consider Nokia equipments\"],\n  \"Assumptions\": [\"There is bandwidth and space in\n                   the station to upgrade the equipments\"],\n  \"Restrictions\": [\"Restricted to CAS Station\",\n                   \"Time horizon: next 2 months\",\n                   \"Maximum investment: 1 million USD\"]\n}", "@prefix ex:  &lt;http://example.com/ns#&gt; .\n@prefix icm: &lt;.../2020/07/intent-model#&gt; .\n@prefix insp:&lt;.../intent-specific-properties#&gt; .\n\nex:Intent_NetworkCoverage a icm:Intent ;\n  rdfs:comment \"Improve network coverage using Nokia\" ;\n  insp:intentOwner ex:System ;\n  icm:hasExpectation\n    ex:Delivery_NetworkCoverage,\n    ex:Property_NokiaEquipment,\n    ex:Context_StationCapacity,\n    ex:Constraint_Scope,\n    ex:Constraint_Time,\n    ex:Constraint_Budget .\n\nex:Constraint_Budget a ex:ConstraintExpectation ;\n  rdfs:comment \"Investment must not exceed 1M USD\" .\nex:Constraint_Time a ex:ConstraintExpectation ;\n  rdfs:comment \"Complete within the next 2 months\" .", "{\n  \"requestId\": \"a:1zGKEqfp...Y3UYYsy0B\",\n  \"status\": \"ok\",\n  \"summary\": {\n    \"totalIntents\": 1, \"totalExpectations\": 6,\n    \"systemIntentions\": [{\n      \"category\": \"planning\", \"priority\": \"high\",\n      \"statement\": \"Improve coverage by deploying Nokia\n        equipment at CAS Station, within 2 months and a\n        budget ceiling of 1,000,000 USD.\"\n    }],\n    \"guaranteesRequired\": [\n      \"Total deployment cost must not exceed 1,000,000 USD\",\n      \"All work completed within 2 months of activation\",\n      \"Only Nokia equipment may be used\"\n    ]\n  }\n}"];
+const TXT = {"play": "▶  Reproduzir", "replay": "↻  Repetir", "pause": "⏸  Pausar", "mute": "Som ligado", "muted": "Som desligado", "ccon": "Legendas ON", "ccoff": "Legendas OFF"};
+const VOICE_PREFS = ["Microsoft Francisca Online (Natural) - Portuguese (Brazil)", "Microsoft Thalita Online (Natural) - Portuguese (Brazil)", "Microsoft Francisca Online (Natural)", "Google português do Brasil", "Microsoft Maria - Portuguese (Brazil)", "Luciana"];
+
+// stage start times (seconds) — when each agent becomes active
+const STAGE_STARTS = [14, 21, 31, 41]; // Orchestrator, Decomposer, Translator, Planner
+
+// Build agent cards
+const pipe = document.getElementById('pipe');
+AGENTS.forEach((a,i)=>{
+  const el = document.createElement('div');
+  el.className='agent'; el.id='agent'+i;
+  el.innerHTML = `<div class="step">${i+1}</div>
+    <div class="ico">${a.tag}</div>
+    <h3>${a.name}</h3><p>${a.desc}</p>
+    <div class="arrow">➜</div>`;
+  pipe.appendChild(el);
+});
+
+const capEl=document.getElementById('caption');
+const progEl=document.getElementById('progress');
+const dataTitle=document.getElementById('dataTitle');
+const dataPre=document.getElementById('dataPre');
+const reqPanel=document.getElementById('reqPanel');
+const playBtn=document.getElementById('play');
+const soundBtn=document.getElementById('soundBtn');
+
+let t0=null, raf=null, running=false, soundOn=true, lastCap=-1, lastStage=-1;
+let spokenIdx=-1, chosenVoice=null;
+
+// Pick ONE fixed voice for this language: first match from VOICE_PREFS,
+// else any voice whose lang matches, else any voice with the same base lang.
+function pickVoice(){
+  const vs = ('speechSynthesis' in window) ? speechSynthesis.getVoices() : [];
+  if(!vs.length) return;
+  const base = LANG.slice(0,2);
+  for(const pref of VOICE_PREFS){
+    const hit = vs.find(v => (v.name||'').toLowerCase() === pref.toLowerCase());
+    if(hit){ chosenVoice = hit; return; }
+  }
+  chosenVoice = vs.find(v => v.lang === LANG)
+             || vs.find(v => v.lang && v.lang.slice(0,2) === base)
+             || vs[0];
+}
+
+function speak(text){
+  if(!soundOn || !('speechSynthesis' in window)) return;
+  if(!chosenVoice) pickVoice();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = LANG; u.rate = 0.96; u.pitch = 1.0;
+  if(chosenVoice) u.voice = chosenVoice;
+  try { speechSynthesis.resume(); } catch(e){}
+  speechSynthesis.speak(u);
+}
+
+function applyStage(s){
+  AGENTS.forEach((_,i)=>{
+    const el=document.getElementById('agent'+i);
+    el.classList.toggle('active', i===s);
+    el.classList.toggle('done', i<s);
+  });
+  reqPanel.classList.toggle('dim', s>0 && s!==0 ? false:false);
+  if(s>=0){
+    const title=PANEL_TITLES[s]||PANEL_TITLES[0];
+    const payload=PAYLOADS[s];
+    dataTitle.textContent=title;
+    if(payload){
+      dataPre.innerHTML=payload;
+      dataPre.classList.remove('show'); void dataPre.offsetWidth; dataPre.classList.add('show');
+    }else{
+      dataPre.textContent=''; dataPre.classList.remove('show');
+    }
+    // dim the user request once we move past the orchestrator intake
+    reqPanel.classList.toggle('dim', s>=2);
+  }
+}
+
+function frame(ts){
+  if(!t0) t0=ts;
+  const sec=(ts-t0)/1000;
+  progEl.style.width=Math.min(100,(sec/DURATION)*100)+'%';
+
+  // captions
+  let ci=-1;
+  for(let i=0;i<CAPTIONS.length;i++){ if(sec>=CAPTIONS[i][0]) ci=i; }
+  if(ci!==lastCap && ci>=0){
+    lastCap=ci;
+    capEl.innerHTML=CAPTIONS[ci][1];
+  }
+  if(ci!==spokenIdx && ci>=0){ spokenIdx=ci; speak(CAPTIONS[ci][2] || CAPTIONS[ci][1]); }
+
+  // stages
+  let st=-1;
+  for(let i=0;i<STAGE_STARTS.length;i++){ if(sec>=STAGE_STARTS[i]) st=i; }
+  if(st!==lastStage){ lastStage=st; if(st>=0) applyStage(st); }
+
+  if(sec<DURATION && running){ raf=requestAnimationFrame(frame); }
+  else if(sec>=DURATION){ running=false; playBtn.textContent=TXT.replay; }
+}
+
+function start(){
+  // reset
+  cancelAnimationFrame(raf);
+  if('speechSynthesis' in window) speechSynthesis.cancel();
+  t0=null; lastCap=-1; lastStage=-1; spokenIdx=-1; running=true;
+  AGENTS.forEach((_,i)=>{const el=document.getElementById('agent'+i);el.className='agent';});
+  reqPanel.classList.remove('dim');
+  dataPre.textContent=''; dataPre.classList.remove('show');
+  dataTitle.textContent=PANEL_TITLES[0];
+  capEl.innerHTML=CAPTIONS[0][1];
+  playBtn.textContent=TXT.pause;
+  // speak the opening line within the click gesture to unlock audio
+  speak(CAPTIONS[0][2] || CAPTIONS[0][1]); spokenIdx=0; lastCap=0;
+  raf=requestAnimationFrame(frame);
+}
+
+playBtn.addEventListener('click',()=>{
+  if(running){ running=false; cancelAnimationFrame(raf);
+    if('speechSynthesis' in window) speechSynthesis.pause();
+    playBtn.textContent=TXT.play; }
+  else { start(); }
+});
+soundBtn.addEventListener('click',()=>{
+  soundOn=!soundOn; soundBtn.textContent=soundOn?TXT.mute:TXT.muted;
+  if(!soundOn && 'speechSynthesis' in window) speechSynthesis.cancel();
+});
+
+let ccOn=true;
+const ccBtn=document.getElementById('ccBtn');
+ccBtn.addEventListener('click',()=>{
+  ccOn=!ccOn;
+  capEl.classList.toggle('cc-hidden', !ccOn);
+  ccBtn.textContent = ccOn ? TXT.ccon : TXT.ccoff;
+  ccBtn.classList.toggle('off', !ccOn);
+});
+// preload + lock the fixed voice (voices load async in some browsers)
+if('speechSynthesis' in window){
+  speechSynthesis.onvoiceschanged = pickVoice;
+  pickVoice();
+  setTimeout(pickVoice, 400);
+}
+// initial caption
+capEl.innerHTML=CAPTIONS[0][1];
+</script>
+</body>
+</html>

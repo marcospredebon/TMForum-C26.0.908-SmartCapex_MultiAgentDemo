@@ -12,6 +12,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Demo Intro Videos](#demo-intro-videos)
 - [Key Value Drivers](#key-value-drivers)
 - [Architecture](#architecture)
 - [Agent Pipeline](#agent-pipeline)
@@ -33,6 +34,15 @@ The system accepts business-level investment intents in natural language, transl
 It is designed as a **standards-based blueprint** — not a demo — that can be deployed as part of an Autonomous Network (AN) strategy aligned with TM Forum AN principles and ODA components.
 
 The orchestration layer is built entirely on **Microsoft Copilot Studio**, using native multi-agent capabilities where the main SmartCapex agent calls three specialized sub-agents in sequence.
+
+---
+
+## Demo Intro Videos
+
+Use the links below to open the SmartCapex demo introduction videos:
+
+- **English (EN-US):** [SmartCapex Multi-Agent Explainer](docs/images/SmartCapex_MultiAgent_Explainer_EN.html)
+- **Portuguese (PT-BR):** [SmartCapex Multi-Agent Explicador](docs/images/SmartCapex_MultiAgent_Explicador_PT-BR.html)
 
 ---
 
