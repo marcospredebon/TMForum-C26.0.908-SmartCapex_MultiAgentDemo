@@ -41,8 +41,10 @@ The orchestration layer is built entirely on **Microsoft Copilot Studio**, using
 
 Use the links below to open the SmartCapex demo introduction videos:
 
-- **English (EN-US):** [SmartCapex Multi-Agent Explainer](docs/images/SmartCapex_MultiAgent_Explainer_EN.html)
-- **Portuguese (PT-BR):** [SmartCapex Multi-Agent Explicador](docs/images/SmartCapex_MultiAgent_Explicador_PT-BR.html)
+- **English (EN-US) — Browser:** [SmartCapex Multi-Agent Explainer](https://htmlpreview.github.io/?https://raw.githubusercontent.com/marcospredebon/TMForum-C26.0.908-SmartCapex_MultiAgentDemo/main/docs/images/SmartCapex_MultiAgent_Explainer_EN.html)
+- **Portuguese (PT-BR) — Browser:** [SmartCapex Multi-Agent Explicador](https://htmlpreview.github.io/?https://raw.githubusercontent.com/marcospredebon/TMForum-C26.0.908-SmartCapex_MultiAgentDemo/main/docs/images/SmartCapex_MultiAgent_Explicador_PT-BR.html)
+
+Note: browser autoplay policies may block audio on page load. If needed, click **Play** inside the page to start the narration.
 
 ---
 
