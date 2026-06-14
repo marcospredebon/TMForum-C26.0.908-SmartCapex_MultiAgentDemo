@@ -34,6 +34,12 @@ Returns exactly one JSON object:
 | `Assumptions` | Planning premises and forecast horizons |
 | `Restrictions` | Hard limits, budget caps, exclusions |
 
+## Knowledge Base Reference
+
+KB file for this agent:
+
+- [`kb-intent-decomposer-agent.txt`](kb-intent-decomposer-agent.txt)
+
 ## Demo Instructions (used in this demo)
 
 → **[`copilot-studio/instructions/demo-intent-decomposer.txt`](../../copilot-studio/instructions/demo-intent-decomposer.txt)**

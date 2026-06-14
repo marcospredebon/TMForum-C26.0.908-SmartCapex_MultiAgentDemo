@@ -61,6 +61,12 @@ SmartCapex (via "Generate Investment Recommendation" action) → [Planning/Optim
 3. Quality and SLA constraints
 4. Time and rollout constraints
 
+## Knowledge Base Reference
+
+KB file for this agent:
+
+- [`kb-planning-optimization-intent-agent.txt`](kb-planning-optimization-intent-agent.txt)
+
 ## Demo Instructions (used in this demo)
 
 → **[`copilot-studio/instructions/demo-planning-optimization.txt`](../../copilot-studio/instructions/demo-planning-optimization.txt)**

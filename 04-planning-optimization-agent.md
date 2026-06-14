@@ -29,6 +29,12 @@ Each Turtle document uses TM Forum prefixes:
 - `insp:` — Intent Specification
 - Optional: `unit:`, `geo:` domain vocabularies
 
+## Knowledge Base Reference
+
+KB file for this agent:
+
+- [`docs/agents/kb-planning-optimization-intent-agent.txt`](docs/agents/kb-planning-optimization-intent-agent.txt)
+
 ## Processing Steps
 
 1. **Validate** input shape — return error with missing fields if invalid

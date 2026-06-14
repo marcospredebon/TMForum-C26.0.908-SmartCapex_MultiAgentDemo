@@ -1,0 +1,12 @@
+kb-planning-optimization-intent-agent.txt
+
+Knowledge base files uploaded for Planning Optimization Intent Agent:
+TMF921_Intent_Management_v5.0.0_specification.pdf
+TR292B_Intent_Management_State_Machines_v3.7.0.pdf
+TR292C_Function_Definition_Ontology_v3.6.0.pdf
+TR292A_Intent_Management_Elements_v3.6.0.pdf
+TR290V_Intent_Common_Model_Vocabulary_Reference_v3.6.0.pdf
+TR292D_Quantity_Ontology_v3.6.0.pdf
+
+Reference https://www.tmforum.org/
+ 

@@ -1,0 +1,13 @@
+kb-Intent-Translator-RDF-Agent.txt
+
+Knowledge base files uploaded for Intent Translator RDF Agent:
+
+TR292B_Intent_Management_State_Machines_v3.7.0.pdf
+TMF921_Intent_Management_v5.0.0_specification.pdf
+TR290V_Intent_Common_Model_Vocabulary_Reference_v3.6.0.pdf
+TR292C_Function_Definition_Ontology_v3.6.0.pdf
+TR292A_Intent_Management_Elements_v3.6.0.pdf
+TR292D_Quantity_Ontology_v3.6.0.pdf
+
+Reference https://www.tmforum.org/
+ 

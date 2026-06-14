@@ -278,6 +278,15 @@ The three files below are the **exact agent instructions deployed in this demo**
 
 Note:Besides instructions, additionally Copilot Studio agents uses for their Knoledge bases the TMForum references for each Agent, deppending on each agent purpose and instructions/needs.
 
+Knowledge Base file reference by agent (files are in `docs/agents/`):
+
+| Agent | KB File |
+|---|---|
+| User Intents Decomposer | [`docs/agents/kb-intent-decomposer-agent.txt`](docs/agents/kb-intent-decomposer-agent.txt) |
+| Intent Translator RDF Agent | [`docs/agents/kb-Intent-Translator-RDF-Agent.txt.txt`](docs/agents/kb-Intent-Translator-RDF-Agent.txt.txt) |
+| Planning/Optimization Agent | [`docs/agents/kb-planning-optimization-intent-agent.txt`](docs/agents/kb-planning-optimization-intent-agent.txt) |
+| SmartCapex Main Agent (orchestrator) | Uses the three sub-agent KB files above |
+
 | File | Agent |
 |---|---|
 | [`copilot-studio/instructions/demo-intent-decomposer.txt`](copilot-studio/instructions/demo-intent-decomposer.txt) | User Intents Decomposer (Sub-Agent 1) |

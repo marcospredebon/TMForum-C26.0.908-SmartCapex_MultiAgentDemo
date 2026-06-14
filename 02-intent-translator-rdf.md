@@ -37,6 +37,12 @@ Returns **RDF Turtle only** — no JSON, no markdown, no prose. Uses these prefi
 
 > **Format note:** Serialization is **RDF** (Resource Description Framework) Turtle. All references use "RDF" — correct and intentional throughout SmartCapex.
 
+## Knowledge Base Reference
+
+KB file for this agent:
+
+- [`docs/agents/kb-Intent-Translator-RDF-Agent.txt.txt`](docs/agents/kb-Intent-Translator-RDF-Agent.txt.txt)
+
 ## Demo Instructions (used in this demo)
 
 → **[`copilot-studio/instructions/demo-bi-translator-rdf.txt`](../../copilot-studio/instructions/demo-bi-translator-rdf.txt)**

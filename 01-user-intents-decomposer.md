@@ -30,6 +30,12 @@ Returns exactly one JSON object with four mandatory arrays:
 | `Assumptions` | Planning premises, forecast horizons, contextual starting points |
 | `Restrictions` | Hard limits, budget caps, exclusions, hard constraints |
 
+## Knowledge Base Reference
+
+KB file for this agent:
+
+- [`docs/agents/kb-intent-decomposer-agent.txt`](docs/agents/kb-intent-decomposer-agent.txt)
+
 ## Behavioral Rules
 
 - Interpret paraphrases and semantically equivalent wording as the same intent

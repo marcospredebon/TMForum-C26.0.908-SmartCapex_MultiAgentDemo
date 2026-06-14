@@ -37,6 +37,14 @@ The agent ALWAYS follows this sequence — no steps are skipped, no order is cha
 5. Present recommendation to user in plain language
 ```
 
+## Knowledge Base Reference
+
+The main orchestrator uses sub-agents. Their KB files are:
+
+- [`kb-intent-decomposer-agent.txt`](kb-intent-decomposer-agent.txt)
+- [`kb-Intent-Translator-RDF-Agent.txt.txt`](kb-Intent-Translator-RDF-Agent.txt.txt)
+- [`kb-planning-optimization-intent-agent.txt`](kb-planning-optimization-intent-agent.txt)
+
 ## Full Instructions
 
 See → [`copilot-studio/instructions/smartcapex-main.md`](../../copilot-studio/instructions/smartcapex-main.md)
